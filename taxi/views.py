@@ -5,7 +5,6 @@ from taxi.models import Driver, Car, Manufacturer
 
 
 def index(request):
-    """View function for the home page of the site."""
 
     context = {
         "num_drivers": Driver.objects.count(),
@@ -19,7 +18,7 @@ def index(request):
 class ManufacturerListView(generic.ListView):
     model = Manufacturer
     queryset = Manufacturer.objects.all().order_by("name")
-    paginate_by = 5  # !!!!
+    paginate_by = 5
 
 
 class CarListView(generic.ListView):
@@ -39,3 +38,6 @@ class DriverListView(generic.ListView):
 
 class DriverDetailView(generic.DetailView):
     model = Driver
+    queryset = Driver.objects.prefetch_related(
+        "cars"
+    )
